@@ -6,35 +6,42 @@ const DarkModeContext = createContext();
 
 export function DarkModeProvider({ children }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const savedMode = localStorage.getItem('darkMode');
     if (savedMode !== null) {
-      const isDark = savedMode === 'true';
-      setIsDarkMode(isDark);
-      if (isDark) {
-        document.documentElement.classList.add('dark');
-      }
+      setIsDarkMode(savedMode === 'true');
     } else {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       setIsDarkMode(prefersDark);
-      if (prefersDark) {
-        document.documentElement.classList.add('dark');
-      }
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('darkMode', isDarkMode.toString());
+    console.log('Effect running - mounted:', mounted, 'isDarkMode:', isDarkMode);
+    if (!mounted) return;
+
+    console.log('Applying theme change to DOM, isDarkMode:', isDarkMode);
+    console.log('Current HTML classes BEFORE:', document.documentElement.className);
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
+      console.log('Added dark class');
     } else {
       document.documentElement.classList.remove('dark');
+      console.log('Removed dark class');
     }
-  }, [isDarkMode]);
+    console.log('Current HTML classes AFTER:', document.documentElement.className);
+    localStorage.setItem('darkMode', isDarkMode.toString());
+  }, [isDarkMode, mounted]);
 
   const toggleDarkMode = () => {
-    setIsDarkMode(prev => !prev);
+    console.log('Toggle called, current isDarkMode:', isDarkMode);
+    setIsDarkMode(prev => {
+      console.log('Previous value:', prev, 'New value:', !prev);
+      return !prev;
+    });
   };
 
   return (
