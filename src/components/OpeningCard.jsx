@@ -38,7 +38,7 @@ export default function OpeningCard({ opening, onEdit, onDelete, onView }) {
             <span className="text-sm font-semibold text-primary-700 dark:text-primary-400">{formatSalary(opening.salary)}</span>
           </div>
 
-          <div className="flex items-center text-slate-500 dark:text-slate-500">
+          <div className="flex items-center text-slate-500 dark:text-slate-400">
             <svg className="w-4 h-4 mr-2" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
               <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>

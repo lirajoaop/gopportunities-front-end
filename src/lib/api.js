@@ -41,15 +41,30 @@ async function fetchApi(endpoint, options = {}) {
   }
 }
 
+function normalizeOpening(data) {
+  return {
+    id: data.ID,
+    role: data.Role,
+    company: data.Company,
+    location: data.Location,
+    remote: data.Remote,
+    link: data.Link,
+    salary: data.Salary,
+    createdAt: data.CreatedAt,
+    updatedAt: data.UpdatedAt,
+  };
+}
+
 export const openingsApi = {
   async getAll() {
     const response = await fetchApi('/openings');
-    return response.data || [];
+    const data = response.data || [];
+    return data.map(normalizeOpening);
   },
 
   async getById(id) {
     const response = await fetchApi(`/opening?id=${id}`);
-    return response.data;
+    return normalizeOpening(response.data);
   },
 
   async create(opening) {
@@ -57,7 +72,7 @@ export const openingsApi = {
       method: 'POST',
       body: JSON.stringify(opening),
     });
-    return response.data;
+    return normalizeOpening(response.data);
   },
 
   async update(id, opening) {
@@ -65,7 +80,7 @@ export const openingsApi = {
       method: 'PUT',
       body: JSON.stringify(opening),
     });
-    return response.data;
+    return normalizeOpening(response.data);
   },
 
   async delete(id) {
