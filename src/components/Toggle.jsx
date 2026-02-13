@@ -13,7 +13,7 @@ export default function Toggle({ label, checked, onChange, name }) {
         role="switch"
         aria-checked={checked}
         onClick={() => onChange({ target: { name, type: 'checkbox', checked: !checked } })}
-        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
+        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none cursor-pointer ${
           checked ? 'bg-primary-600' : 'bg-slate-300 dark:bg-slate-600'
         }`}
       >
