@@ -1,38 +1,52 @@
 # Go Opportunities - Frontend
 
-A modern, professional frontend application for managing job opportunities, built with React, Next.js, and Tailwind CSS.
+A production-ready frontend for the **Go Opportunities** platform — a job opportunity management application built with React, Next.js, and Tailwind CSS.
+
+> **Live app:** [https://gopportunities-front-end.vercel.app](https://gopportunities-front-end.vercel.app)
+>
+> **Production API:** [https://gopportunities-cwm0.onrender.com/api/v1](https://gopportunities-cwm0.onrender.com/api/v1)
+>
+> **Backend repository:** [github.com/lirajoaop/gopportunities](https://github.com/lirajoaop/gopportunities)
 
 ## Features
 
-- **Full CRUD Operations**: Create, read, update, and delete job openings
-- **Real-time Search**: Filter jobs by role, company, or location
-- **Advanced Filtering**: Filter by work type (all, remote, on-site)
-- **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
-- **Professional UI**: Clean, modern interface with smooth animations
-- **Statistics Dashboard**: View total openings, remote positions, and filtered results
-- **Form Validation**: Client-side validation with helpful error messages
-- **Toast Notifications**: User-friendly success and error messages
+- **Full CRUD Operations** — Create, read, update, and delete job openings
+- **Real-time Search** — Filter jobs by role, company, or location
+- **Advanced Filtering** — Filter by work type (all, remote, on-site)
+- **Responsive Design** — Works seamlessly on desktop, tablet, and mobile
+- **Dark Mode** — Toggle between light and dark themes
+- **Statistics Dashboard** — View total openings, remote positions, and filtered results
+- **Form Validation** — Client-side validation with helpful error messages
+- **Toast Notifications** — User-friendly success and error messages
 
 ## Tech Stack
 
-- **Next.js 16** - React framework for production
-- **React 19** - UI library
-- **Tailwind CSS 4** - Utility-first CSS framework
-- **JavaScript (ES6+)** - No TypeScript, pure JavaScript
-- **Fetch API** - For backend communication
+- **Next.js 16** — React framework for production
+- **React 19** — UI library
+- **Tailwind CSS 4** — Utility-first CSS framework
+- **JavaScript (ES6+)** — Pure JavaScript, no TypeScript
+- **Fetch API** — Backend communication
 
-## Prerequisites
+## Infrastructure
 
-Before running this application, make sure you have:
+| Service  | Platform |
+|----------|----------|
+| Frontend | Vercel   |
+| Backend  | Render   |
+| Database | Neon (PostgreSQL) |
 
-- Node.js 16.x or later
+## Getting Started (Local Development)
+
+### Prerequisites
+
+- Node.js 18.x or later
 - npm or yarn
-- Go Opportunities Backend API running on `http://127.0.0.1:8080`
 
-## Installation
+### Installation
 
 1. Clone the repository:
    ```bash
+   git clone https://github.com/lirajoaop/gopportunities-front-end.git
    cd gopportunities-front-end
    ```
 
@@ -42,216 +56,113 @@ Before running this application, make sure you have:
    ```
 
 3. Configure the API URL (optional):
-   The default API URL is `http://127.0.0.1:8080/api/v1`. To change it, edit the `.env.local` file:
+   By default the app points to the production API. For local development, edit `.env.local`:
    ```
-   NEXT_PUBLIC_API_URL=http://your-api-url/api/v1
+   NEXT_PUBLIC_API_URL=http://127.0.0.1:8080/api/v1
    ```
 
-## Running the Application
+### Running
 
-### Development Mode
-
-Start the development server:
+**Development:**
 ```bash
 npm run dev
 ```
+Open [http://localhost:3000](http://localhost:3000)
 
-The application will be available at [http://localhost:3000](http://localhost:3000)
-
-### Production Build
-
-Build the application for production:
+**Production build:**
 ```bash
-npm run build
-```
-
-Start the production server:
-```bash
-npm start
+npm run build && npm start
 ```
 
 ## Project Structure
 
 ```
-gopportunities-front-end/
+src/
 ├── app/
 │   ├── globals.css          # Global styles and Tailwind directives
 │   ├── layout.js            # Root layout component
-│   └── page.js              # Main page with job listings
+│   ├── page.js              # Main page with job listings
+│   └── favicon.ico          # App icon
 ├── components/
 │   ├── Button.jsx           # Reusable button component
 │   ├── Card.jsx             # Card container component
+│   ├── DarkModeToggle.jsx   # Dark mode toggle button
 │   ├── Input.jsx            # Form input component
 │   ├── LoadingSpinner.jsx   # Loading indicator
 │   ├── Modal.jsx            # Modal dialog component
 │   ├── OpeningCard.jsx      # Job opening card
-│   ├── OpeningForm.jsx      # Job opening form
+│   ├── OpeningForm.jsx      # Job opening form (create/edit)
 │   ├── Toast.jsx            # Toast notification component
 │   └── Toggle.jsx           # Toggle switch component
+├── contexts/
+│   └── DarkModeContext.js   # Dark mode context provider
 ├── lib/
 │   └── api.js               # API service layer
-├── utils/
-│   └── formatters.js        # Utility functions for formatting
-├── .env.local               # Environment variables
-├── .gitignore              # Git ignore file
-├── next.config.js          # Next.js configuration
-├── package.json            # Project dependencies
-├── postcss.config.js       # PostCSS configuration
-├── tailwind.config.js      # Tailwind CSS configuration
-└── README.md               # This file
+└── utils/
+    └── formatters.js        # Utility functions for formatting
 ```
 
 ## API Integration
 
-The frontend integrates with the Go Opportunities backend API with the following endpoints:
+The frontend consumes the Go Opportunities REST API:
 
-- `GET /api/v1/openings` - Fetch all job openings
-- `GET /api/v1/opening?id={id}` - Fetch a single job opening
-- `POST /api/v1/opening` - Create a new job opening
-- `PUT /api/v1/opening?id={id}` - Update a job opening
-- `DELETE /api/v1/opening?id={id}` - Delete a job opening
+| Method   | Endpoint                  | Description              |
+|----------|---------------------------|--------------------------|
+| `GET`    | `/api/v1/openings`        | List all job openings    |
+| `GET`    | `/api/v1/opening?id={id}` | Get opening by ID        |
+| `POST`   | `/api/v1/opening`         | Create a new opening     |
+| `PUT`    | `/api/v1/opening?id={id}` | Update an opening        |
+| `DELETE` | `/api/v1/opening?id={id}` | Delete an opening        |
 
-## Usage Guide
+## Usage
 
-### Adding a New Job Opening
+### Creating a Job Opening
 
-1. Click the "Add New Opening" button in the header
-2. Fill in all required fields:
-   - Job Role
-   - Company
-   - Location
-   - Remote Position (toggle)
-   - Application Link
-   - Annual Salary (USD)
+1. Click "Add New Opening"
+2. Fill in the required fields (role, company, location, link, salary)
 3. Click "Create Opening"
 
-### Editing a Job Opening
+### Editing / Deleting
 
-1. Find the job opening card
-2. Click the "Edit" button
-3. Modify the fields
-4. Click "Update Opening"
+- Click "Edit" on a job card to modify it
+- Click "Delete" to remove it (with confirmation)
 
-### Deleting a Job Opening
-
-1. Find the job opening card
-2. Click the "Delete" button
-3. Confirm the deletion
-
-### Searching and Filtering
+### Search and Filters
 
 - Use the search bar to filter by role, company, or location
-- Use the "Work Type" dropdown to filter by remote/on-site positions
-- The statistics cards update automatically based on your filters
-
-## Component Documentation
-
-### API Service (`lib/api.js`)
-
-Provides methods for interacting with the backend API:
-- `openingsApi.getAll()` - Fetch all openings
-- `openingsApi.getById(id)` - Fetch opening by ID
-- `openingsApi.create(data)` - Create new opening
-- `openingsApi.update(id, data)` - Update opening
-- `openingsApi.delete(id)` - Delete opening
-
-### Formatters (`utils/formatters.js`)
-
-Utility functions for data formatting:
-- `formatSalary(amount)` - Format number as USD currency
-- `formatDate(dateString)` - Format date as "Month DD, YYYY"
-- `formatRelativeTime(dateString)` - Format as relative time (e.g., "2 days ago")
-
-## Customization
-
-### Colors
-
-The primary color scheme is defined in `tailwind.config.js`. To change the primary color:
-
-```javascript
-theme: {
-  extend: {
-    colors: {
-      primary: {
-        // Modify these values
-        500: '#0ea5e9',
-        600: '#0284c7',
-        700: '#0369a1',
-      },
-    },
-  },
-}
-```
-
-### Fonts
-
-The application uses the Inter font family. To change it, edit `app/layout.js`:
-
-```javascript
-<link
-  href="https://fonts.googleapis.com/css2?family=YourFont:wght@300;400;500;600;700&display=swap"
-  rel="stylesheet"
-/>
-```
-
-And update `tailwind.config.js`:
-
-```javascript
-fontFamily: {
-  sans: ['YourFont', 'system-ui', 'sans-serif'],
-},
-```
+- Use the work type filter (remote / on-site)
+- Statistics update automatically based on active filters
 
 ## Troubleshooting
 
 ### API Connection Issues
 
-If the frontend cannot connect to the API:
+1. Check the API URL in `.env.local`
+2. Check browser console for CORS errors
+3. For local development, ensure the backend is running on `http://127.0.0.1:8080`
 
-1. Verify the backend is running on `http://127.0.0.1:8080`
-2. Check the API URL in `.env.local`
-3. Check browser console for CORS errors
-4. Ensure the backend has CORS enabled
+> **Note:** The backend on Render may take a few seconds to wake up on the first request (free tier cold start).
 
 ### Build Errors
 
-If you encounter build errors:
-
-1. Delete `node_modules` and `.next` folders
+1. Delete `node_modules` and `.next`
 2. Run `npm install` again
-3. Clear npm cache: `npm cache clean --force`
-
-## Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
+3. Clear cache: `npm cache clean --force`
 
 ## Contributing
 
-Contributions are welcome! Please follow these steps:
-
 1. Fork the repository
 2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+3. Make your changes and test
+4. Submit a pull request
 
 ## License
 
 This project is licensed under the MIT License.
 
-## Support
-
-For issues and questions:
-- Open an issue on GitHub
-- Check the backend API documentation
-- Review the browser console for errors
-
 ## Acknowledgments
 
-- Built with Next.js and React
-- Styled with Tailwind CSS
-- Icons from Heroicons
-- Fonts from Google Fonts
+- [Next.js](https://nextjs.org/) and [React](https://react.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Heroicons](https://heroicons.com/)
+- [Google Fonts](https://fonts.google.com/)
