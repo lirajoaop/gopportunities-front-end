@@ -25,50 +25,36 @@ async function fetchApi(endpoint, options = {}) {
   return await response.json();
 }
 
-function normalizeOpening(data) {
-  return {
-    id: data.ID,
-    role: data.Role,
-    company: data.Company,
-    location: data.Location,
-    remote: data.Remote,
-    link: data.Link,
-    salary: data.Salary,
-    createdAt: data.CreatedAt,
-    updatedAt: data.UpdatedAt,
-  };
-}
-
 export const openingsApi = {
   async getAll() {
     const response = await fetchApi('/openings');
     const data = response.data || [];
-    return data.map(normalizeOpening);
+    return data;
   },
 
   async getById(id) {
-    const response = await fetchApi(`/opening?id=${id}`);
-    return normalizeOpening(response.data);
+    const response = await fetchApi(`/openings/${id}`);
+    return response.data;
   },
 
   async create(opening) {
-    const response = await fetchApi('/opening', {
+    const response = await fetchApi('/openings', {
       method: 'POST',
       body: JSON.stringify(opening),
     });
-    return normalizeOpening(response.data);
+    return response.data;
   },
 
   async update(id, opening) {
-    const response = await fetchApi(`/opening?id=${id}`, {
+    const response = await fetchApi(`/openings/${id}`, {
       method: 'PUT',
       body: JSON.stringify(opening),
     });
-    return normalizeOpening(response.data);
+    return response.data;
   },
 
   async delete(id) {
-    const response = await fetchApi(`/opening?id=${id}`, {
+    const response = await fetchApi(`/openings/${id}`, {
       method: 'DELETE',
     });
     return response.data;
