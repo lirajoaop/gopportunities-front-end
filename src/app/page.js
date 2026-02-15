@@ -8,6 +8,7 @@ import Modal from '../components/Modal';
 import Button from '../components/Button';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Toast from '../components/Toast';
+import ConfirmModal from '../components/ConfirmModal';
 import DarkModeToggle from '../components/DarkModeToggle';
 
 export default function Home() {
@@ -18,6 +19,7 @@ export default function Home() {
   const [toast, setToast] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRemote, setFilterRemote] = useState('all');
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   useEffect(() => {
     fetchOpenings();
@@ -62,17 +64,19 @@ export default function Home() {
     }
   };
 
-  const handleDeleteOpening = async (opening) => {
-    if (!confirm(`Are you sure you want to delete the opening for ${opening.role} at ${opening.company}?`)) {
-      return;
-    }
+  const handleDeleteOpening = (opening) => {
+    setDeleteTarget(opening);
+  };
 
+  const confirmDelete = async () => {
     try {
-      await openingsApi.delete(opening.id);
+      await openingsApi.delete(deleteTarget.id);
       showToast('Opening deleted successfully!');
+      setDeleteTarget(null);
       fetchOpenings();
     } catch (error) {
       showToast(`Failed to delete opening: ${error.message}`, 'error');
+      setDeleteTarget(null);
     }
   };
 
@@ -260,6 +264,15 @@ export default function Home() {
           onCancel={handleCloseModal}
         />
       </Modal>
+
+      {/* Confirm Delete Modal */}
+      <ConfirmModal
+        isOpen={!!deleteTarget}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={confirmDelete}
+        title="Delete opening"
+        message={deleteTarget ? `Are you sure you want to delete the opening for ${deleteTarget.role} at ${deleteTarget.company}?` : ''}
+      />
 
       {/* Toast */}
       {toast && (
